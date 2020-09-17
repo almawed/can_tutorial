@@ -23,15 +23,15 @@ def convert(project_path,project_root):
 
     path = path.strip('/')	
     
-    print("Keil工程文件所在目录:%s"%(path))
-    print("Keil工程文件名:%s"%(project_file_name))
-    print("工程根目录：%s"%project_root)
+    print("The directory where the Keil project file is located:%s"%(path))
+    print("Keil project name:%s"%(project_file_name))
+    print("project root directory：%s"%project_root)
 
     if project_path.find(project_root) is -1:
-        print("工程根目录错误，请选择一个工程文件的父级目录！")
+        print(" Wrong root directory，Please select the parent directory of a project file!！")
         return
 
-    print("开始转换....")	
+    print("Satrt converting....")	
     
     project_file_rela_dir = project_path[len(project_root) + 1:] 
 
@@ -51,7 +51,7 @@ def convert(project_path,project_root):
     cmake_template_buff = open('./cmake_template/CMakeLists.txt',encoding = 'utf-8').read()
     # print('makefile is%s'%Src_makefile_buff)
 
-    print("\n\n源码文件:\n")
+    print("\n\nSource File:\n")
 
     p_path = os.path.dirname(os.path.dirname(project_file_rela_dir))
 
@@ -81,7 +81,7 @@ def convert(project_path,project_root):
                                           .replace('###INC_DIR###',Include_OriStr))
 
     #print(pathList[the_path])
-    print("转换成功！")
+    print("Done！")
 
 def main():
     global project_path
@@ -100,17 +100,17 @@ def main():
     # Entry(root, textvariable = path).grid(row = 1, column = 1)
     # Button(root, text = "打开", command = selectPath).grid(row = 1, column = 2)
 
-    Label(root,text = "Keil工程文件:").grid(row = 0, column = 0)
+    Label(root,text = "Keil project file:").grid(row = 0, column = 0)
     Entry(root, textvariable = project_path).grid(row = 0, column = 1)
-    Button(root, text = "打开", command = selectPath).grid(row = 0, column = 2)
+    Button(root, text = "open", command = selectPath).grid(row = 0, column = 2)
 
     
-    Label(root,text = "工程根目录:").grid(row = 1, column = 0)
+    Label(root,text = "project root directory:").grid(row = 1, column = 0)
     Entry(root, textvariable = cmake_save_path).grid(row = 1, column = 1)
-    Button(root, text = "打开", command = selectCmakeSavePath).grid(row = 1, column = 2)
+    Button(root, text = "Open", command = selectCmakeSavePath).grid(row = 1, column = 2)
 
 
-    Button(root, text = "开始转换", command = lambda:convert(project_path.get(),cmake_save_path.get())).grid(row = 2, column = 0)
+    Button(root, text = "Convert", command = lambda:convert(project_path.get(),cmake_save_path.get())).grid(row = 2, column = 0)
 
     root.mainloop()
 
