@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8)
-project (infantry)
+project (hero)
 
 ENABLE_LANGUAGE(ASM)
 
@@ -7,13 +7,13 @@ ENABLE_LANGUAGE(ASM)
 set(DIR_SRCS
 application/init.c
 application/communicate.c
-application/chassis_task.c
 application/gimbal_task.c
 application/shoot_task.c
 application/timer_task.c
-application/hero_cmd.c
+application/chassis_task.c
 application/offline_check.c
 application/referee_system.c
+application/hero_cmd.c
 bsp/boards/board.c
 bsp/boards/drv_can.c
 bsp/boards/drv_imu.c
@@ -145,16 +145,16 @@ set(CMAKE_ASM_FLAGS
 "--cpu Cortex-M4.fp -g --apcs=interwork --pd \"__MICROLIB SETA 1\" --pd \"__UVISION_VERSION SETA 524\" --pd \"_RTE_ SETA 1\" --pd \"STM32F427xx SETA 1\"")
 
 
-add_executable(infantry ${DIR_SRCS})
+add_executable(hero ${DIR_SRCS})
 
 set_target_properties(
-    infantry 
+    hero 
     PROPERTIES 
-        OUTPUT_NAME "infantry"
+        OUTPUT_NAME "hero"
         SUFFIX ".axf"
 )
 
-add_custom_command(TARGET infantry POST_BUILD
+add_custom_command(TARGET hero POST_BUILD
     COMMENT "Generationg .bin ....."
-    COMMAND C:/Keil_v5/ARM/ARMCC/bin/fromelf.exe  --bin -o infantry.bin infantry.axf
+    COMMAND C:/Keil_v5/ARM/ARMCC/bin/fromelf.exe  --bin -o hero.bin hero.axf
 )

@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\build\</OutputDirectory>
-          <OutputName>infantry</OutputName>
+          <OutputName>hero</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -133,7 +133,7 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
+            <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
@@ -413,11 +413,6 @@
               <FilePath>..\application\chassis_task.c</FilePath>
             </File>
             <File>
-              <FileName>infantry_cmd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\application\infantry_cmd.c</FilePath>
-            </File>
-            <File>
               <FileName>offline_check.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\offline_check.c</FilePath>
@@ -426,6 +421,11 @@
               <FileName>referee_system.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\referee_system.c</FilePath>
+            </File>
+            <File>
+              <FileName>hero_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\hero_cmd.c</FilePath>
             </File>
           </Files>
         </Group>

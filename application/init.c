@@ -14,7 +14,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-//头文件声明
+//头文件声明 Header files
 #include "main.h"
 #include "can.h"
 #include "board.h"
