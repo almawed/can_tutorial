@@ -24,7 +24,7 @@
 #include "timer_task.h"
 #include "offline_check.h"
 #include "init.h"
-#include "infantry_cmd.h"
+#include "hero_cmd.h"
 #include "referee_system.h"
 #include "protocol.h"
 /*静态变量函数设置*/

@@ -11,7 +11,7 @@ application/chassis_task.c
 application/gimbal_task.c
 application/shoot_task.c
 application/timer_task.c
-application/infantry_cmd.c
+application/hero_cmd.c
 application/offline_check.c
 application/referee_system.c
 bsp/boards/board.c

@@ -18,7 +18,7 @@
 #include "dbus.h"
 #include "chassis_task.h"
 #include "timer_task.h"
-#include "infantry_cmd.h"
+#include "hero_cmd.h"
 #include "ahrs.h"
 
 static float vx, vy, wz;

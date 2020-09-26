@@ -1,27 +1,10 @@
-/****************************************************************************
- *  Copyright (C) 2019 RoboMaster.
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program. If not, see <http://www.gnu.org/licenses/>.
- ***************************************************************************/
+#ifndef __HERO_H__
+#define __HERO_H__
 
-#ifndef __INFANTRY_H__
-#define __INFANTRY_H__
-
-#ifdef INFANTRY_H_GLOBAL
-  #define INFANTRY_H_EXTERN 
+#ifdef HERO_H_GLOBAL
+  #define HERO_H_EXTERN 
 #else
-  #define INFANTRY_H_EXTERN extern
+  #define HERO_H_EXTERN extern
 #endif
 
 #include "sys.h"
@@ -157,9 +140,9 @@ struct manifold_cmd
 };
 
 int32_t rc_data_forword_by_can(uint8_t *buff, uint16_t len);
-void infantry_cmd_task(void const * argument);
+void hero_cmd_task(void const * argument);
 int32_t gimbal_push_info(void *argc);
 int32_t chassis_push_info(void *argc);
 struct manifold_cmd *get_manifold_cmd(void);
 
-#endif // __INFANTRY_H__
+#endif // __HERO_H__

@@ -1,5 +1,5 @@
 /****************************************************************************
- *  Copyright (C) 2019 RoboMaster.
+ *  Copyright (C) 2019 RoboMaster & UARM - EE Team.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,18 +22,20 @@
 #include "shoot.h"
 
 #include "init.h"
-#include "infantry_cmd.h"
 #include "chassis_task.h"
 #include "gimbal_task.h"
 
 #include "protocol.h"
 #include "referee_system.h"
-/*系统运行标识符 System operation identifier*/
+#include "hero_cmd.h"
+
+#include "stm32f4xx_hal.h"
+
 #define MANIFOLD2_CHASSIS_SIGNAL (1 << 0)
 #define MANIFOLD2_GIMBAL_SIGNAL (1 << 1)
 #define MANIFOLD2_SHOOT_SIGNAL (1 << 2)
 #define MANIFOLD2_FRICTION_SIGNAL (1 << 3)
-#define MANIFOLD2_CHASSIS_ACC_SIGNAL (1 << 4)//底盘加速信号 Chassis acceleration signal
+#define MANIFOLD2_CHASSIS_ACC_SIGNAL (1 << 4)
 
 extern osThreadId cmd_task_t;
 
@@ -67,118 +69,14 @@ int32_t gimbal_adjust_cmd(uint8_t *buff, uint16_t len)//云台自动调整命令
   return 0;
 }
 
-/*************************步兵主任务函数 Infantry main task function*************************/
-void infantry_cmd_task(void const *argument)
+void hero_cmd_task(void const *argument)
 {
-  uint8_t app;
-  osEvent event;//步兵某行动指示标识
-  app = get_sys_cfg();
-	
-  /*起始状态统一复位*/
-  rc_device_t prc_dev = NULL;
-  shoot_t pshoot = NULL;
-  gimbal_t pgimbal = NULL;
-  chassis_t pchassis = NULL;
-
-  pshoot = shoot_find("shoot");
-  pgimbal = gimbal_find("gimbal");
-  pchassis = chassis_find("chassis");
-  /*判断当前工作模式*/
-  if (app == CHASSIS_APP)//步兵行进模式
-  {
-    prc_dev = rc_device_find("uart_rc");
-    protocol_rcv_cmd_register(CMD_STUDENT_DATA, student_data_transmit);
-    protocol_rcv_cmd_register(CMD_PUSH_GIMBAL_INFO, gimbal_info_rcv);
-    protocol_rcv_cmd_register(CMD_SET_CHASSIS_SPEED, chassis_speed_ctrl);
-    protocol_rcv_cmd_register(CMD_SET_CHASSIS_SPD_ACC, chassis_spd_acc_ctrl);
-  }
-  else // 步兵射击模式 use gimbal
-  {
-    prc_dev = rc_device_find("can_rc");
-    protocol_rcv_cmd_register(CMD_SET_GIMBAL_ANGLE, gimbal_angle_ctrl);
-    protocol_rcv_cmd_register(CMD_SET_FRICTION_SPEED, shoot_firction_ctrl);
-    protocol_rcv_cmd_register(CMD_SET_SHOOT_FREQUENTCY, shoot_ctrl);
-    protocol_rcv_cmd_register(CMD_GIMBAL_ADJUST, gimbal_adjust_cmd);
-  }
-
-  while (1)
-  {
-    if (rc_device_get_state(prc_dev, RC_S2_DOWN) != RM_OK)//未收到OK标志不开始任务目标
-    {
-      memset(&manifold_cmd, 0, sizeof(struct manifold_cmd));//memset作用是赋值，这里为均设为0；&manifold_cmd该地址非常重要，为结构体函数，内又分为5个子结构体
-      osDelay(100);
+    //Only for testing FreeRTOS task
+    while(1){
+        HAL_Delay(500);
+        HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);   
     }
-    else
-    {
-      event = osSignalWait(MANIFOLD2_CHASSIS_SIGNAL | MANIFOLD2_GIMBAL_SIGNAL |
-                               MANIFOLD2_SHOOT_SIGNAL | MANIFOLD2_FRICTION_SIGNAL | MANIFOLD2_CHASSIS_ACC_SIGNAL,
-                           500);//判断即将开始的任务目标
-
-      if (event.status == osEventSignal)
-      {
-        if (event.value.signals & MANIFOLD2_CHASSIS_SIGNAL)//按位与，当前为底盘匀速工作信号
-        {
-          struct cmd_chassis_speed *pspeed;
-          pspeed = &manifold_cmd.chassis_speed;//读取目标速度
-          chassis_set_offset(pchassis, pspeed->rotate_x_offset, pspeed->rotate_x_offset);//抵消速度设置，不太理解这一项，应该是补偿一些系统误差
-          chassis_set_acc(pchassis, 0, 0, 0);//设置底盘三向加速度均为0
-          chassis_set_speed(pchassis, pspeed->vx, pspeed->vy, pspeed->vw / 10.0f);//为底盘赋予速度
-        }
-
-        if (event.value.signals & MANIFOLD2_CHASSIS_ACC_SIGNAL)//按位与，当前为底盘加速工作信号
-        {
-          struct cmd_chassis_spd_acc *pacc;
-          pacc = &manifold_cmd.chassis_spd_acc;
-          chassis_set_offset(pchassis, pacc->rotate_x_offset, pacc->rotate_x_offset);
-          chassis_set_acc(pchassis, pacc->ax, pacc->ay, pacc->wz / 10.0f);//为三相赋予加速度
-          chassis_set_speed(pchassis, pacc->vx, pacc->vy, pacc->vw / 10.0f);
-        }
-
-        if (event.value.signals & MANIFOLD2_GIMBAL_SIGNAL)//按位与，当前为云台工作信号
-        {
-          struct cmd_gimbal_angle *pangle;
-          pangle = &manifold_cmd.gimbal_angle;//读取目标角度，应该是从陀螺仪和控制端获得数据
-          if (pangle->ctrl.bit.pitch_mode == 0)//设置云台倾斜常量角模式
-          {
-            gimbal_set_pitch_angle(pgimbal, pangle->pitch / 10.0f);//设置倾斜角
-          }
-          else//云台倾斜角匀速旋转模式
-          {
-            gimbal_set_pitch_speed(pgimbal, pangle->pitch / 10.0f);//设置倾斜角速度
-          }
-          if (pangle->ctrl.bit.yaw_mode == 0)//设置航向常量角模式
-          {
-            gimbal_set_yaw_angle(pgimbal, pangle->yaw / 10.0f, 0);
-          }
-          else
-          {
-            gimbal_set_yaw_speed(pgimbal, pangle->yaw / 10.0f);//航向角速度
-          }
-        }
-
-        if (event.value.signals & MANIFOLD2_SHOOT_SIGNAL)//射击工作模式信号
-        {
-          struct cmd_shoot_num *pctrl;
-          pctrl = &manifold_cmd.shoot_num;
-          shoot_set_cmd(pshoot, pctrl->shoot_cmd, pctrl->shoot_add_num);//射击动作触发以及射击次数设置
-          shoot_set_turn_speed(pshoot, pctrl->shoot_freq);//为射击速度设置上限和下限
-        }
-
-        if (event.value.signals & MANIFOLD2_FRICTION_SIGNAL)
-        {
-          struct cmd_firction_speed *pctrl;
-          pctrl = &manifold_cmd.firction_speed;
-          shoot_set_fric_speed(pshoot, pctrl->left, pctrl->right);//考虑摩擦力的射击？
-        }
-      }
-      else//待命状态
-      {
-        chassis_set_speed(pchassis, 0, 0, 0);
-        chassis_set_acc(pchassis, 0, 0, 0);
-        shoot_set_cmd(pshoot, SHOOT_STOP_CMD, 0);
-      }
-    }
-  }
+    
 }
 
 /*以下函数均为对上述主任务中出现的函数的描述*/
@@ -231,7 +129,7 @@ int32_t shoot_firction_ctrl(uint8_t *buff, uint16_t len)
 
 int32_t shoot_ctrl(uint8_t *buff, uint16_t len)
 {
-  if (len == sizeof(struct cmd_shoot_num))
+  if (len == sizeof(struct cmd_shoot_num))//
   {
     memcpy(&manifold_cmd.shoot_num, buff, len);
     osSignalSet(cmd_task_t, MANIFOLD2_SHOOT_SIGNAL);

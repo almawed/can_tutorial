@@ -21,7 +21,7 @@
 #include "gimbal.h"
 #include "timer_task.h"
 #include "gimbal_task.h"
-#include "infantry_cmd.h"
+#include "hero_cmd.h"
 #include "offline_check.h"
 #include "param.h"
 #include "ramp.h"

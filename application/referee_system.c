@@ -17,7 +17,7 @@
 
 #include "protocol.h"
 #include "communicate.h"
-#include "infantry_cmd.h"
+#include "hero_cmd.h"
 #include "referee_system.h"
 
 #define REFEREE_FIFO_BUFLEN 500

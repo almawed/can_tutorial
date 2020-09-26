@@ -25,7 +25,7 @@
 #include "offline_check.h"
 #include "gimbal_task.h"
 #include "timer_task.h"
-#include "infantry_cmd.h"
+#include "hero_cmd.h"
 
 #define BEEP_MAX_TIMES 20
 
