@@ -427,6 +427,11 @@
               <FileType>1</FileType>
               <FilePath>..\application\hero_cmd.c</FilePath>
             </File>
+            <File>
+              <FileName>shoot_task_large.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\shoot_task_large.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

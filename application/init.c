@@ -30,6 +30,7 @@
 #include "gimbal_task.h"
 #include "timer_task.h"
 #include "shoot_task.h"
+#include "shoot_task_large.h"
 #include "communicate.h"
 #include "hero_cmd.h"
 #include "init.h"
@@ -101,6 +102,7 @@ osThreadId gimbal_task_t;
 osThreadId communicate_task_t;
 osThreadId cmd_task_t;
 osThreadId shoot_task_t;
+osThreadId shoot_task_large_t;
 
 void task_init(void)
 {
@@ -116,6 +118,9 @@ void task_init(void)
 
   osThreadDef(CMD_TASK, hero_cmd_task, osPriorityNormal, 0, 4096);
   cmd_task_t = osThreadCreate(osThread(CMD_TASK), NULL);
+	
+	osThreadDef(SHOOT_TASK_LARGE, shoot_task_large, osPriorityNormal, 0,4096);
+	shoot_task_large_t=osThreadCreate(osThread(SHOOT_TASK_LARGE),NULL);
   
   if (app == CHASSIS_APP) //Judge which processes are handling at present
   {
