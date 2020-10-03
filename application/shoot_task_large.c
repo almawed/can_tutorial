@@ -4,6 +4,7 @@
 #include "gimbal.h"
 #include "shoot.h"
 
+
 #include "init.h"
 #include "chassis_task.h"
 #include "gimbal_task.h"
@@ -13,7 +14,13 @@
 #include "hero_cmd.h"
 #include "shoot_task_large.h"
 
+//Timer necessary
+#include "tim.h"
+
 #include "stm32f4xx_hal.h"
+
+
+
 
 void shoot_task_large(void const *argument){
     while(1){

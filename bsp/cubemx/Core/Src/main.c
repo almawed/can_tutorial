@@ -111,20 +111,25 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  // MX_DMA_Init();
-  // MX_USART6_UART_Init();
-  // MX_CAN1_Init();
-  // MX_CAN2_Init();
-  // MX_USART1_UART_Init();
-  // MX_USART3_UART_Init();
-  // MX_TIM2_Init();
-  // MX_SPI5_Init();
-  // MX_TIM1_Init();
-  // MX_TIM3_Init();
-  // MX_TIM12_Init();
+//	MX_DMA_Init();
+//	MX_USART6_UART_Init();
+//	MX_CAN1_Init();
+//	MX_CAN2_Init();
+//	MX_USART1_UART_Init();
+//	MX_USART3_UART_Init();
+	  MX_TIM2_Init();
+//	MX_SPI5_Init();
+//	MX_TIM1_Init();
+//  MX_TIM3_Init();
+//	MX_TIM12_Init();
+//	
   // /* USER CODE BEGIN 2 */
-  // hw_init();
-  task_init();
+  //hw_init();
+  //task_init();
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,0);
+	HAL_Delay(2000);
+	uint16_t flag=1500;
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -132,7 +137,7 @@ int main(void)
   portEXIT_CRITICAL();
 
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
   
   /* We should never get here as control is now taken by the scheduler */
 
@@ -140,7 +145,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+  	while(flag < 2000){
+  		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,flag++);
+  		HAL_Delay(3);
+  	}
+  	while(flag > 1000){
+  		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,flag--);
+  		HAL_Delay(3);
+  	}
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

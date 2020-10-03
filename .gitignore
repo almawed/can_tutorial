@@ -40,3 +40,7 @@ rm_infantry.hex
 rm_infantry.elf
 rm_infantry.bin
 .vscode/
+*.bin
+*.hex
+*.elf
+*.map
