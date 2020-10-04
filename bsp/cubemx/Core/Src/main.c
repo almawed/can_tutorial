@@ -110,14 +110,15 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
+    MX_GPIO_Init();
 //	MX_DMA_Init();
 //	MX_USART6_UART_Init();
 //	MX_CAN1_Init();
 //	MX_CAN2_Init();
 //	MX_USART1_UART_Init();
 //	MX_USART3_UART_Init();
-	  MX_TIM2_Init();
+//  MX_TIM2_Init();
+		MX_TIM4_Init();
 //	MX_SPI5_Init();
 //	MX_TIM1_Init();
 //  MX_TIM3_Init();
@@ -126,15 +127,18 @@ int main(void)
   // /* USER CODE BEGIN 2 */
   //hw_init();
   //task_init();
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
-	__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,0);
+	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
+	__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,0);
 	HAL_Delay(2000);
-	uint16_t flag=1500;
+	//__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,20000);
+	//HAL_Delay(2000);
+	//HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
+	uint16_t flag=0;
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  portEXIT_CRITICAL();
+  //MX_FREERTOS_Init();
+  //portEXIT_CRITICAL();
 
   /* Start scheduler */
   //osKernelStart();
@@ -145,14 +149,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-  	while(flag < 2000){
-  		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,flag++);
-  		HAL_Delay(3);
-  	}
-  	while(flag > 1000){
-  		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,flag--);
-  		HAL_Delay(3);
-  	}
+
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
