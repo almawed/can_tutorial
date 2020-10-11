@@ -110,37 +110,85 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  // MX_DMA_Init();
-  // MX_USART6_UART_Init();
-  // MX_CAN1_Init();
-  // MX_CAN2_Init();
-  // MX_USART1_UART_Init();
-  // MX_USART3_UART_Init();
-  // MX_TIM2_Init();
-  // MX_SPI5_Init();
-  // MX_TIM1_Init();
-  // MX_TIM3_Init();
-  // MX_TIM12_Init();
+    MX_GPIO_Init();
+//	MX_DMA_Init();
+//	MX_USART6_UART_Init();
+//	MX_CAN1_Init();
+//	MX_CAN2_Init();
+//	MX_USART1_UART_Init();
+//	MX_USART3_UART_Init();
+//  MX_TIM2_Init();
+		MX_TIM4_Init();
+//	MX_SPI5_Init();
+//	MX_TIM1_Init();
+//  MX_TIM3_Init();
+//	MX_TIM12_Init();
+//	
   // /* USER CODE BEGIN 2 */
-  // hw_init();
-  task_init();
+  //hw_init();
+  //task_init();
+	
+//	  double flag=10000;
+		HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
+		//HAL_Delay(1750);
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,2000);
+		  HAL_Delay(2000);
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,1000);
+		  HAL_Delay(1750);
+//		//Set min throttle then min throttle gradually, max throttle is set through the initialization function sConfig.Pulse
+//		while (flag>0){
+//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag--);
+//	}
+//		HAL_Delay(10);
+	 
+//  	__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,10000);
+//  	HAL_Delay(2000);
+//	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,0);
+	
+	//__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,20000);
+	//HAL_Delay(2000);
+	//HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
+
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
-  portEXIT_CRITICAL();
+  //MX_FREERTOS_Init();
+  //portEXIT_CRITICAL();
 
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
   
   /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	uint16_t flag=0;
   while (1)
   {
-
+		while (flag<2000){
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag++);
+		HAL_Delay(5);
+		}
+		while (flag>1000){
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag--);
+		HAL_Delay(5);
+		}
+			//HAL_GPIO_TogglePin(LD1_GPIO_Port, LD2_Pin); 		
+//		while(flag<10000){
+//		flag++;
+//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);
+//		HAL_Delay(3);
+//		}
+//		while(flag>0){
+//		flag--;
+//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);
+//    HAL_Delay(3);			
+//		}
+		//__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,19999);
+			
+// 		HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
+//		HAL_Delay(1000);
+//  HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

@@ -36,7 +36,11 @@ JLinkLog.txt
 *.uvguix.*
 build/*
 !build/infantry.sct
-rm_infantry.hex
-rm_infantry.elf
-rm_infantry.bin
+rm_hero.hex
+rm_hero.elf
+rm_hero.bin
 .vscode/
+*.bin
+*.hex
+*.elf
+*.map
