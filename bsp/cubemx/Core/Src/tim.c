@@ -192,9 +192,9 @@ void MX_TIM4_Init(void)
 	
 
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 167;
+  htim4.Init.Prescaler = 83;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 2000-1; //-1 is here because frequency=CLOCK SOURCE/((Prescaler+1)*(Period+1))
+  htim4.Init.Period = 10000-1; //-1 is here because frequency=CLOCK SOURCE/((Prescaler+1)*(Period+1))
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim4.Init.RepetitionCounter = 0;
 	
@@ -213,7 +213,7 @@ void MX_TIM4_Init(void)
 	
   
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 1999;
+  sConfigOC.Pulse = 10000;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
 	sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -425,10 +425,13 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
     HAL_GPIO_Init(FW_L_Large_GPIO_Port, &GPIO_InitStruct);
 		
-		for (int i=0;i<6;i++){
-		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-		HAL_Delay(500);
-		}
+		
+ 		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+		
+//		for (int i=0;i<6;i++){
+//		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+//		HAL_Delay(500);
+//		}
 		
 
   /* USER CODE BEGIN TIM4_MspPostInit 1 */
