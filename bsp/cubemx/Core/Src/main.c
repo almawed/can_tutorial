@@ -128,14 +128,18 @@ int main(void)
   //hw_init();
   //task_init();
 	
-	  double flag=10000;
+//	  double flag=10000;
 		HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
-		//HAL_Delay(1750);
-		//Set min throttle then min throttle gradually, max throttle is set through the initialization function sConfig.Pulse
-		while (flag>0){
-		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag--);
-	}
-		HAL_Delay(10);
+		HAL_Delay(1750);
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,2000);
+		HAL_Delay(2000);
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,1000);
+		HAL_Delay(2000);
+//		//Set min throttle then min throttle gradually, max throttle is set through the initialization function sConfig.Pulse
+//		while (flag>0){
+//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag--);
+//	}
+//		HAL_Delay(10);
 	 
 //  	__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,10000);
 //  	HAL_Delay(2000);
@@ -160,7 +164,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,2000);
+		
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,1350);
+		
 			//HAL_GPIO_TogglePin(LD1_GPIO_Port, LD2_Pin); 		
 //		while(flag<10000){
 //		flag++;
@@ -174,8 +180,8 @@ int main(void)
 //		}
 		//__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,19999);
 			
- 		HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
-		HAL_Delay(1000);
+// 		HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
+//		HAL_Delay(1000);
 //  HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
   /* USER CODE END WHILE */
 
