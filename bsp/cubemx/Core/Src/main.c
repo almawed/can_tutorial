@@ -127,9 +127,18 @@ int main(void)
   // /* USER CODE BEGIN 2 */
   //hw_init();
   //task_init();
-	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
-	__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,0);
-	HAL_Delay(2000);
+	if (HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4)==HAL_OK){
+		
+		for (int i=0;i<4;i++){
+    HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin); 
+		HAL_Delay(1000);
+		}
+		
+	};
+  	__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,1999);
+  	HAL_Delay(3000);
+	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,0);
+	
 	//__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,20000);
 	//HAL_Delay(2000);
 	//HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
@@ -149,7 +158,32 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+		//		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin); 		
+		while(flag<2000){
+		flag++;
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);
+		HAL_Delay(3);
+		}
+		while(flag>0){
+		flag--;
+		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);
+    HAL_Delay(3);			
+		}
+		//__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,19999);
+			
+		HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
+		HAL_Delay(1000);
+//		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin); 		
+//		while(flag<10000){
+//		flag++;
+//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);	
+//		}
+//		while(flag>100){
+//		flag--;
+//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);	
+//		}
+//	HAL_Delay(1000);
+//  HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
