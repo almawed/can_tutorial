@@ -95,16 +95,22 @@
 
 //Debug Light-LD1, LD2, LD8, corresponding to LED 1, B, and G
 #define LD1_Pin GPIO_PIN_8
-#define LD1_GPIO_Port GPIOG
 #define LD2_Pin GPIO_PIN_7
-#define LD2_GPIO_Port GPIOG
+#define LD3_Pin GPIO_PIN_6
+#define LD4_Pin GPIO_PIN_5
+#define LD5_Pin GPIO_PIN_4
+#define LD6_Pin GPIO_PIN_3
+#define LD7_Pin GPIO_PIN_2
 #define LD8_Pin GPIO_PIN_1
-#define LD8_GPIO_Port GPIOG
+#define LED_GPIO_Port GPIOG
 
 //PWM (Red Black Blue) GPIO pin Definition
 //Left wheel, port D, pin 15, correspond to port E on the board
 #define FW_L_Large_Pin GPIO_PIN_15
 #define FW_L_Large_GPIO_Port GPIOD
+
+#define FW_R_Large_Pin GPIO_PIN_14
+#define FW_R_Large_GPIO_PORT GPIOD
 
 //Define Pin 
 

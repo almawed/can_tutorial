@@ -71,10 +71,11 @@ int32_t gimbal_adjust_cmd(uint8_t *buff, uint16_t len)//云台自动调整命令
 
 void hero_cmd_task(void const *argument)
 {
+	   uint32_t period = osKernelSysTick();
     //Only for testing FreeRTOS task
     while(1){
-        HAL_Delay(500);
-        HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);   
+        osDelayUntil(&period, 500);
+        HAL_GPIO_TogglePin(LED_GPIO_Port, LD1_Pin);   
     }
     
 }
