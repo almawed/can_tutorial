@@ -425,8 +425,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
     HAL_GPIO_Init(FW_L_Large_GPIO_Port, &GPIO_InitStruct);
 		
-		
- 		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	
 		
 //		for (int i=0;i<6;i++){
 //		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
