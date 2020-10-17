@@ -220,7 +220,7 @@ void MX_TIM4_Init(void)
 	//sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
 	//sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
 	//Initialize Channel 2?
-  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK) //Init line is ran here?
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3) != HAL_OK) //Init line is ran here?
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -414,9 +414,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
   {
   /* USER CODE BEGIN TIM4_MspPostInit 1*/
 		
-		///Flash Debug Light before initializing
-		
-
+		//Initialize left pin
 		
     GPIO_InitStruct.Pin = FW_L_Large_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -425,7 +423,13 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
     HAL_GPIO_Init(FW_L_Large_GPIO_Port, &GPIO_InitStruct);
 		
-	
+	  //Initialize right pin
+		GPIO_InitStruct.Pin = FW_R_Large_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+    HAL_GPIO_Init(FW_R_Large_GPIO_PORT, &GPIO_InitStruct);
 		
 //		for (int i=0;i<6;i++){
 //		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);

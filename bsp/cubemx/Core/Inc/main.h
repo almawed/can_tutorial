@@ -109,6 +109,9 @@
 #define FW_L_Large_Pin GPIO_PIN_15
 #define FW_L_Large_GPIO_Port GPIOD
 
+#define FW_R_Large_Pin GPIO_PIN_14
+#define FW_R_Large_GPIO_PORT GPIOD
+
 //Define Pin 
 
 /* ########################## Assert Selection ############################## */
