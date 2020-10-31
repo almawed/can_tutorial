@@ -63,37 +63,37 @@ uint8_t get_sys_cfg(void)//get status of the whole system
 void hw_init(void)
 {
 	//Intializing process
-  cali_param_init(); //Parameter caculation system initialization
+  //cali_param_init(); //Parameter caculation system initialization
   board_config();
-  test_init(); // Test system initialization. However this function is void.
-  system_config();
-  ulog_init();
-  ulog_console_backend_init();
-  
-  referee_param_init(); // referee system initialization
-  usart3_rx_callback_register(referee_uart_rx_data_handle); //serial communication initialization
-  referee_send_data_register(usart3_transmit);
+//  test_init(); // Test system initialization. However this function is void.
+//  system_config();
+//  ulog_init();
+//  ulog_console_backend_init();
+//  
+//  referee_param_init(); // referee system initialization
+//  usart3_rx_callback_register(referee_uart_rx_data_handle); //serial communication initialization
+//  referee_send_data_register(usart3_transmit);
 
-  if(glb_sys_cfg == CHASSIS_APP) // CHASSIS_APP = 0. This means enter chassis system initialization status
-  {
-    rc_device_register(&rc_dev, "uart_rc", 0);
-    dr16_forword_callback_register(rc_data_forword_by_can);
-    chassis_pid_register(&chassis, "chassis", DEVICE_CAN1);
-    chassis_disable(&chassis);
-  }
-  else // GIMBAL_APP = 1, enter gimbal system initialization status
-  {
-    rc_device_register(&rc_dev, "can_rc", 0);
-    gimbal_cascade_register(&gimbal, "gimbal", DEVICE_CAN1);
+//  if(glb_sys_cfg == CHASSIS_APP) // CHASSIS_APP = 0. This means enter chassis system initialization status
+//  {
+//    rc_device_register(&rc_dev, "uart_rc", 0);
+//    dr16_forword_callback_register(rc_data_forword_by_can);
+//    chassis_pid_register(&chassis, "chassis", DEVICE_CAN1);
+//    chassis_disable(&chassis);
+//  }
+//  else // GIMBAL_APP = 1, enter gimbal system initialization status
+//  {
+//    rc_device_register(&rc_dev, "can_rc", 0);
+//    gimbal_cascade_register(&gimbal, "gimbal", DEVICE_CAN1);
 
-    shoot_pid_register(&shoot, "shoot", DEVICE_CAN1);
+//    shoot_pid_register(&shoot, "shoot", DEVICE_CAN1);
 
-    gimbal_yaw_disable(&gimbal);
-    gimbal_pitch_disable(&gimbal);
-    shoot_disable(&shoot);
-  }
+//    gimbal_yaw_disable(&gimbal);
+//    gimbal_pitch_disable(&gimbal);
+//    shoot_disable(&shoot);
+//  }
 
-  offline_init();
+//  offline_init();
 }
 
 osThreadId timer_task_t;

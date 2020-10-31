@@ -156,4 +156,6 @@ int32_t gimbal_yaw_disable(struct gimbal *gimbal);
 
 int32_t gimbal_get_info(struct gimbal *gimbal, struct gimbal_info *info);
 
+void send_gimbal_current(int16_t iq1, int16_t iq2, int16_t iq3);
+
 #endif // __GIMBAL_H__

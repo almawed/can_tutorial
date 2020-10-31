@@ -113,7 +113,7 @@ int main(void)
     MX_GPIO_Init();
 //	MX_DMA_Init();
 //	MX_USART6_UART_Init();
-//	MX_CAN1_Init();
+  	MX_CAN1_Init();
 //	MX_CAN2_Init();
 //	MX_USART1_UART_Init();
 //	MX_USART3_UART_Init();
@@ -125,7 +125,7 @@ int main(void)
 //	MX_TIM12_Init();
 //	
   // /* USER CODE BEGIN 2 */
-  //hw_init();
+  hw_init();
   task_init();
 	
 //	  double flag=10000;
