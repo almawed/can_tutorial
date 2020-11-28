@@ -57,6 +57,7 @@
 #include "usb_device.h"
 #include "gpio.h"
 #include "spi.h"
+#include "drv_can.h"
 
 /* USER CODE BEGIN Includes */
 #include "init.h"
@@ -72,6 +73,7 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
+void send_can_motor_message(int16_t iq1, int16_t iq2, int16_t iq3, uint16_t identifier);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -127,27 +129,8 @@ int main(void)
   // /* USER CODE BEGIN 2 */
   hw_init();
   task_init();
-	
-//	  double flag=10000;
-//		HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
-//		//HAL_Delay(1750);
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,2000);
-//		  HAL_Delay(2000);
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,1000);
-//		  HAL_Delay(1750);
-//		//Set min throttle then min throttle gradually, max throttle is set through the initialization function sConfig.Pulse
-//		while (flag>0){
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag--);
-//	}
-//		HAL_Delay(10);
-	 
-//  	__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,10000);
-//  	HAL_Delay(2000);
-//	  __HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,0);
-	
-	//__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_1,20000);
-	//HAL_Delay(2000);
-	//HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
+
+  
 
   /* USER CODE END 2 */
 
@@ -156,46 +139,46 @@ int main(void)
   //portEXIT_CRITICAL();
 
   /* Start scheduler */
-  osKernelStart();
+  //osKernelStart();
   
   /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	//uint16_t flag=0;
+	
+
+
+	
   while (1)
   {
-//		while (flag<2000){
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag++);
-//		HAL_Delay(5);
-//		}
-//		while (flag>1000){
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag--);
-//		HAL_Delay(5);
-//		}
-			//HAL_GPIO_TogglePin(LD1_GPIO_Port, LD2_Pin); 		
-//		while(flag<10000){
-//		flag++;
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);
-//		HAL_Delay(3);
-//		}
-//		while(flag>0){
-//		flag--;
-//		__HAL_TIM_SET_COMPARE(&htim4,TIM_CHANNEL_4,flag);
-//    HAL_Delay(3);			
-//		}
-		//__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,19999);
-			
-// 		HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
-//		HAL_Delay(1000);
-//  HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);   
+	///Write your message here
+		
+		
+		HAL_Delay(4);
+  
   /* USER CODE END WHILE */
 
+		
   /* USER CODE BEGIN 3 */
 
   }
   /* USER CODE END 3 */
 
+}
+
+void send_can_motor_message(int16_t iq1, int16_t iq2, int16_t iq3, uint16_t identifier)
+{
+  static uint8_t tx_data[8];
+
+  tx_data[0] = iq1 >> 8;
+  tx_data[1] = iq1;
+  tx_data[2] = iq2 >> 8;
+  tx_data[3] = iq2;
+  tx_data[4] = iq3 >> 8;
+  tx_data[5] = iq3;
+
+  can_msg_bytes_send(&hcan1, tx_data, 6, identifier);
 }
 
 /**
